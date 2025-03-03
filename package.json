@@ -1,0 +1,28 @@
+{
+  "name": "firebase-webhook-forwarder",
+  "version": "1.0.0",
+  "description": "Fetches requests from a firestore and sends them locally - useful to get webhooks on local machine",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "portman-sugar": "./dist/index.js"
+  },
+  "author": "doonetheprune",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts --url http://context.localhost/test/ --webhookName test --requestId 3Z7mF6pucKlj8NzkLx6O --secretsFile ../secrets.json",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "axios": "^1.8.1",
+    "firebase-admin": "^13.1.0",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "@types/yargs": "^17.0.32",
+    "ts-node": "^10.9.2"
+  }
+}
