@@ -1,6 +1,6 @@
 {
   "name": "firebase-webhook-forwarder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Fetches requests from a firestore and sends them locally - useful to get webhooks on local machine",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
