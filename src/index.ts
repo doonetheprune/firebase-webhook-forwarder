@@ -12,8 +12,8 @@ const argv = yargs(hideBin(process.argv))
         type: 'string',
         alias: 'u'
     })
-    .option('webhookName', {
-        describe: 'Id for receiving the webhook',
+    .option('pathPrefix', {
+        describe: 'Path for receiving the webhook',
         type: 'string',
         alias: 'w',
     })
@@ -45,7 +45,7 @@ const forwardRequest = async (docId: string, requestData: Record<string, any>) =
     // Construct the Axios request based on the Firestore document data
     axios({
         method: requestData.method,
-        url: argv.url,
+        url: argv.url + requestData.path,
         headers: requestData.headers,
         params: requestData.query,
         data: requestData.body
@@ -54,7 +54,7 @@ const forwardRequest = async (docId: string, requestData: Record<string, any>) =
             console.log('Axios response:', docId, response.data);
         })
         .catch(error => {
-            console.error('Axios error:', docId, error.message, error.response.data);
+            console.error('Axios error:', docId, error.message, error.config.url, error.response.data);
         });
 }
 
@@ -91,9 +91,11 @@ const forwardRequest = async (docId: string, requestData: Record<string, any>) =
         console.log('Listening for Changes on the Firestore');
 
         firestore.collection(argv.fireStoreCollection)
+            .orderBy("path")
             .orderBy("dateAdded", "desc")
             .where("dateAdded", '>=', new Date())
-            .where("webhookName", '==', argv.webhookName)
+            .where("path", '>=', argv.pathPrefix)
+            .where("path", '<', argv.pathPrefix + '\uf8ff')
             .onSnapshot(snapshot => {
                 snapshot.docChanges().forEach(change => {
                     const requestData = change.doc.data();

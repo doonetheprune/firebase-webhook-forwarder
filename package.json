@@ -12,7 +12,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "ts-node src/index.ts --url http://context.localhost/test/ --webhookName test --requestId 3Z7mF6pucKlj8NzkLx6O --secretsFile ../secrets.json",
+    "dev": "ts-node src/index.ts --url http://context.localhost/ --pathPrefix send/ --secretsFile ../secrets.json",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
